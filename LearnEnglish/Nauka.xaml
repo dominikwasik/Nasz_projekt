@@ -51,15 +51,63 @@
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" />
 
                 <ListView x:Name="listCategory"  Grid.Column="1" Grid.Row="3"  Margin="0 5 200 50"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollMode="Enabled" Background="#7F76ACC5" Height="Auto" >
-                        <ListViewItem>Sport</ListViewItem>
-                        <ListViewItem>Szkoła</ListViewItem>
-                        <ListViewItem>Hobby</ListViewItem>
-                        <ListViewItem>Finanse</ListViewItem>
-                        <ListViewItem>Sport</ListViewItem>
-                        <ListViewItem>Szkoła</ListViewItem>
-                        <ListViewItem>Hobby</ListViewItem>
-                        <ListViewItem>Finanse</ListViewItem>
-                    </ListView>
+                    <ListViewItem>Osobowość</ListViewItem>
+                    <ListViewItem>Meble i wyposażenie</ListViewItem>
+                    <ListViewItem>Emocje</ListViewItem>
+                    <ListViewItem>Społeczeństwo</ListViewItem>
+                    <ListViewItem>Środki masowego przekazu</ListViewItem>
+                    <ListViewItem>Zakupy</ListViewItem>
+                    <ListViewItem>Usługi</ListViewItem>
+                    <ListViewItem>Rodzina</ListViewItem>
+                    <ListViewItem>Muzyka</ListViewItem>
+                    <ListViewItem>Pogoda</ListViewItem>
+                    <ListViewItem>Podróże</ListViewItem>
+                    <ListViewItem>Nauka</ListViewItem>
+                    <ListViewItem>Szkoła</ListViewItem>
+                    <ListViewItem>Przestępstwa</ListViewItem>
+                    <ListViewItem>Krajobraz</ListViewItem>
+                    <ListViewItem>Zdrowie</ListViewItem>
+                    <ListViewItem>Materiały</ListViewItem>
+                    <ListViewItem>Miłość</ListViewItem>
+                    <ListViewItem>Środowisko</ListViewItem>
+                    <ListViewItem>Kraje Europejskie</ListViewItem>
+                    <ListViewItem>Kolory</ListViewItem>
+                    <ListViewItem>Dzieciństwo</ListViewItem>
+                    <ListViewItem>Budynki</ListViewItem>
+                    <ListViewItem>Wygląd</ListViewItem>
+                    <ListViewItem>W pracy</ListViewItem>
+                    <ListViewItem>Firma</ListViewItem>
+                    <ListViewItem>Kontakt z klientem</ListViewItem>
+                    <ListViewItem>Pracownicy</ListViewItem>
+                    <ListViewItem>Etyka pracy</ListViewItem>
+                    <ListViewItem>Finanse</ListViewItem>
+                    <ListViewItem>Marketing</ListViewItem>
+                    <ListViewItem>Pieniądze</ListViewItem>
+                    <ListViewItem>Stosunki pracowników</ListViewItem>
+                    <ListViewItem>Hadel</ListViewItem>
+                    <ListViewItem>Architektura</ListViewItem>
+                    <ListViewItem>Komputery</ListViewItem>
+                    <ListViewItem>Internet</ListViewItem>
+                    <ListViewItem>Miesiące i dni tygodnia</ListViewItem>
+                    <ListViewItem>Pierwiastki</ListViewItem>
+                    <ListViewItem>Sprzęt laboratoryjny</ListViewItem>
+                    <ListViewItem>Przymiotniki</ListViewItem>
+                    <ListViewItem>Osoba</ListViewItem>
+                    <ListViewItem>Dom</ListViewItem>
+                    <ListViewItem>Ubranie</ListViewItem>
+                    <ListViewItem>Ciało</ListViewItem>
+                    <ListViewItem>Zwierzęta</ListViewItem>
+                    <ListViewItem>Jedzenie</ListViewItem>
+                    <ListViewItem>Sport</ListViewItem>
+                    <ListViewItem>Zawody</ListViewItem>
+                    <ListViewItem>Warzywa</ListViewItem>
+                    <ListViewItem>Owoce</ListViewItem>
+                    <ListViewItem>Katastrofy</ListViewItem>
+                    <ListViewItem>Przestępczość</ListViewItem>
+                    <ListViewItem>Samochód</ListViewItem>
+                    <ListViewItem>Rower</ListViewItem>
+                    <ListViewItem>Chemia</ListViewItem>
+                </ListView>
                 <Button Grid.Column="1" Grid.Row="3" x:Name="btnStart" Content="Rozpocznij " Width="100" Height="50" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 50 0 0" Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" UseSystemFocusVisuals="True" Background="#66FFFFFF" Click="btnStart_Click"></Button>
             </Grid>
         </SplitView.Content>
