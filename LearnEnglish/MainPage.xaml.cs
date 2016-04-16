@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite.Net;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace LearnEnglish
@@ -22,6 +24,8 @@ namespace LearnEnglish
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -55,5 +59,7 @@ namespace LearnEnglish
         {
             Frame.Navigate(typeof(Test));
         }
+
+        
     }
 }

@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,7 +43,7 @@ namespace LearnEnglish
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
+            CreateDataBase();
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -80,6 +81,21 @@ namespace LearnEnglish
             // Ensure the current window is active
             Window.Current.Activate();
         }
+
+        private async void CreateDataBase()
+        {
+            StorageFile fileSource = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/baza_slow3.sqlite", UriKind.RelativeOrAbsolute));
+            StorageFolder desFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            try
+            {
+                StorageFile fileCheck = await desFolder.GetFileAsync("baza_slow3.sqlite");
+            }
+
+            catch
+            {
+                await fileSource.CopyAsync(desFolder, "baza_slow3.sqlite", NameCollisionOption.ReplaceExisting);
+            }
+                }
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
