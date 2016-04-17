@@ -28,13 +28,26 @@ namespace LearnEnglish
         public Nauka1()
         {
             this.InitializeComponent();
-            
-        
+            inpEng.Visibility = Visibility.Visible;
+            btndknow.IsEnabled = false;
+            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
+            {
+                var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                txtPol.Text = existing.pol;
+
+            }
+
         }
-        
+        private class tabela
+        {
+            public string pol { get; set; }
+            public string ang { get; set; }
+            public int zaliczone { get; set; }
+            public int test { get; set; }
+        }
 
 
-        private void btnShowPane_Click(object sender, RoutedEventArgs e)
+            private void btnShowPane_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
             txtLogo.Visibility = Visibility.Visible;
@@ -59,7 +72,12 @@ namespace LearnEnglish
         {
             inpEng.Visibility = Visibility.Visible;
             btndknow.IsEnabled = false;
+            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
+            {
+                var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                txtPol.Text = existing.pol;
 
+            }
         }
         private void btndknow_Click(object sender, RoutedEventArgs e)
         {
