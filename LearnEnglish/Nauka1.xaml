@@ -70,8 +70,8 @@
                 <TextBox x:Name="inpEng" Grid.Column="1" Grid.Row="4" Width="200" Height="50" BorderBrush="White" Background="White" Visibility="Collapsed" Margin="0 5 0 5" KeyDown="inpEng_KeyDown" />
 
                 <Button x:Name="btnknow" Grid.Column="1" Grid.Row="5" Content="Znam" VerticalAlignment="Center" Visibility="Visible" HorizontalAlignment="Center" Width="100" Height="50" Margin="0 0 110 0 " Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" Background="#66FFFFFF" Click="btnknow_Click" ></Button>
-                <Button x:Name="btnNext" Grid.Column="1" Grid.Row="5" Content="Dalej" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Width="100" Height="50" Margin="0 0 110 0 " Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" Background="#66FFFFFF"  ></Button>
-                <Button x:Name="btndknow" Grid.Column="1" Grid.Row="5" Content="Nie znam" VerticalAlignment="Center"  HorizontalAlignment="Center" Width="100" Height="50" Margin="110 0 0 0" Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" Background="#66FFFFFF" Click="btndknow_Click"></Button>
+                <Button x:Name="btnNext" Grid.Column="1" Grid.Row="5" Content="Dalej" VerticalAlignment="Center" Visibility="Collapsed" HorizontalAlignment="Center" Width="100" Height="50" Margin="0 0 110 0 " Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" Background="#66FFFFFF" Click="btnNext_Click"  ></Button>
+                <Button x:Name="btndknow" Grid.Column="1" Grid.Row="5" Content="Nie znam" VerticalAlignment="Center"  HorizontalAlignment="Center" Visibility="Visible" Width="100" Height="50" Margin="110 0 0 0" Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" Background="#66FFFFFF" Click="btndknow_Click"></Button>
 
 
             </Grid>

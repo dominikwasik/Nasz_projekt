@@ -25,16 +25,18 @@ namespace LearnEnglish
     /// </summary>
     public sealed partial class Nauka1 : Page
     {
+
+        string vAng = "";
         public Nauka1()
         {
+            
             this.InitializeComponent();
-            inpEng.Visibility = Visibility.Visible;
-            btndknow.IsEnabled = false;
+
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
                 var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 txtPol.Text = existing.pol;
-
+                vAng = existing.ang;
             }
 
         }
@@ -71,19 +73,17 @@ namespace LearnEnglish
         private void btnknow_Click(object sender, RoutedEventArgs e)
         {
             inpEng.Visibility = Visibility.Visible;
-            btndknow.IsEnabled = false;
-            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
-            {
-                var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
-                txtPol.Text = existing.pol;
+           // btndknow.IsEnabled = false;
 
-            }
+            
         }
         private void btndknow_Click(object sender, RoutedEventArgs e)
         {
-
+            txtEng.Text = vAng;
             txtEng.Visibility = Visibility.Visible;
             btnknow.IsEnabled = false;
+            btndknow.IsEnabled = false;
+            btnNext.Visibility = Visibility.Visible;
 
 
         }
@@ -95,8 +95,9 @@ namespace LearnEnglish
             {
 
             
-            if (inpEng.Text == txtEng.Text)
+            if (inpEng.Text == vAng)
             {
+                    txtEng.Text = vAng;
                     inpEng.Visibility = Visibility.Collapsed;
                     txtEng.Visibility = Visibility.Visible;
                     btnNext.Visibility = Visibility.Visible;
@@ -106,6 +107,22 @@ namespace LearnEnglish
             {
                 await new Windows.UI.Popups.MessageDialog("Niestety, to zła odpowiedź", "Zła odpowiedź").ShowAsync();
             }
+            }
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            txtEng.Visibility = Visibility.Collapsed;
+            btnknow.IsEnabled = true;
+            btndknow.IsEnabled = true;
+            btnNext.Visibility = Visibility.Collapsed;
+            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
+            {
+                var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                txtPol.Text = existing.pol;
+                vAng = existing.ang;
+
+
             }
         }
     }
