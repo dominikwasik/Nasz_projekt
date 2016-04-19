@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -38,6 +39,28 @@ namespace LearnEnglish
                 txtPol.Text = existing.pol;
                 vAng = existing.ang;
             }
+
+        }
+
+        //klasa odpowiadająca za czytanie słów
+        private async void readText(string text)
+        {
+
+            var voices = SpeechSynthesizer.AllVoices;
+            //nowy obiekt speechsynthesizer
+            SpeechSynthesizer speech = new SpeechSynthesizer();
+            //wybranie głosu angielskiego i sprawdzenie czy taki jest zainstalowany
+            try
+            {
+                speech.Voice = voices.First(x => x.Gender == VoiceGender.Male && x.Language.Contains("en-US"));
+                SpeechSynthesisStream stream = await speech.SynthesizeTextToStreamAsync(text);
+                mediaSound.SetSource(stream, stream.ContentType);
+            }
+            catch (Exception)
+            {
+                await new Windows.UI.Popups.MessageDialog("Aby móc poprawnie odsłuchiwać wyrazy, musisz zainstalować język angielski na swoim urządzeniu. Wybierz opcje POMOC z menu po lewej aby dowiedzieć się jak to zrobić.", "Brak komponentu").ShowAsync();
+            }
+
 
         }
         private class tabela
@@ -81,6 +104,7 @@ namespace LearnEnglish
         {
             txtEng.Text = vAng;
             txtEng.Visibility = Visibility.Visible;
+            inpEng.Visibility = Visibility.Collapsed;
             btnknow.IsEnabled = false;
             btndknow.IsEnabled = false;
             btnNext.Visibility = Visibility.Visible;
@@ -101,7 +125,8 @@ namespace LearnEnglish
                     inpEng.Visibility = Visibility.Collapsed;
                     txtEng.Visibility = Visibility.Visible;
                     btnNext.Visibility = Visibility.Visible;
-                    btnknow.Visibility = Visibility.Collapsed;
+                    btnknow.IsEnabled = false;
+                    btndknow.IsEnabled = false;
                 }
             else
             {
@@ -124,6 +149,19 @@ namespace LearnEnglish
 
 
             }
+        }
+
+        private async void btnSpeak_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                readText(vAng);
+            }
+            catch (Exception)
+            {
+                await new Windows.UI.Popups.MessageDialog("Aby móc poprawnie odsłuchiwać wyrazy, musisz zainstalować język angielski na swoim urządzeniu. Wybierz opcje POMOC z menu po lewej aby dowiedzieć się jak to zrobić.", "Brak komponentu").ShowAsync();
+            }
+            
         }
     }
 }

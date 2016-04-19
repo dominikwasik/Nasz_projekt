@@ -45,8 +45,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
+                <MediaElement x:Name="mediaSound"></MediaElement>
                 <TextBlock x:Name="txtCategory" Grid.Column="1" Text="Sport" FontSize="54" Foreground="White"
                            HorizontalAlignment="Center" Margin="0 20 0 0" FontFamily="Snap ITC" />
+                
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="Polish:" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14" Foreground="White"
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" FontFamily="Monotype Corsiva" />
 
@@ -56,7 +58,7 @@
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" FontFamily="Monotype Corsiva" />
                 <TextBlock x:Name="txtEng" Grid.Column="1" Grid.Row="4" Text="Football" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="24" Foreground="#FF51FF00"
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" Visibility="Collapsed" FontWeight="Bold" />
-                <Button x:Name="btnSpeak" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Content="&#xE890;" Height="50" Foreground="Black"  Width="100" Margin="300 0 0 0" FontWeight="Bold" FontSize="24" >
+                <Button x:Name="btnSpeak" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Content="&#xE890;" Height="50" Foreground="Black"  Width="100" Margin="300 0 0 0" FontWeight="Bold" FontSize="24" Click="btnSpeak_Click" >
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black" Offset="0.94"/>
