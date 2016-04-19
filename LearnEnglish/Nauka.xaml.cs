@@ -22,9 +22,12 @@ namespace LearnEnglish
     /// </summary>
     public sealed partial class Nauka : Page
     {
+        public string item = "";
+        
         public Nauka()
         {
             this.InitializeComponent();
+
         }
 
         private void btnShowPane_Click(object sender, RoutedEventArgs e)
@@ -49,6 +52,11 @@ namespace LearnEnglish
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+         
+            int numer = Convert.ToInt32(listCategory.SelectedIndex);
+            string result = (listCategory.Items[numer] as ListViewItem).Content.ToString();
+            localSettings.Values["Text"] = result;
             Frame.Navigate(typeof(Nauka1));
         }
     }

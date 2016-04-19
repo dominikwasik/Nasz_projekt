@@ -38,10 +38,11 @@ namespace LearnEnglish
         {
             
             this.InitializeComponent();
+            txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Text"].ToString();
 
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
-                var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                var existing = conn.Query<tabela>(@"select * from 'Budynki' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 txtPol.Text = existing.pol;
                 vAng = existing.ang;
             }
@@ -101,6 +102,7 @@ namespace LearnEnglish
         //jeśli znam, wyswietlenie okna do wpisania słowa
         private void btnknow_Click(object sender, RoutedEventArgs e)
         {
+            inpEng.Text = "";
             inpEng.Visibility = Visibility.Visible;
            // btndknow.IsEnabled = false;
 
@@ -214,6 +216,7 @@ namespace LearnEnglish
 
 
             }
+            
         }
 
         private async void btnSpeak_Click(object sender, RoutedEventArgs e)
