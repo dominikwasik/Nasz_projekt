@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.SpeechSynthesis;
@@ -100,7 +106,7 @@ namespace LearnEnglish
 
             
         }
-        private void btndknow_Click(object sender, RoutedEventArgs e)
+        private async void btndknow_Click(object sender, RoutedEventArgs e)
         {
             txtEng.Text = vAng;
             txtEng.Visibility = Visibility.Visible;
@@ -108,6 +114,64 @@ namespace LearnEnglish
             btnknow.IsEnabled = false;
             btndknow.IsEnabled = false;
             btnNext.Visibility = Visibility.Visible;
+
+            //Wyświetlanie przykładowych zdań:
+
+            string urlAddress = "http://sentence.yourdictionary.com/" + vAng;
+            HttpClient client = new HttpClient();
+            // string searchHere = await client.GetStringAsync(urlAddress);
+            string searchHere = "";
+
+            try
+            {
+                searchHere = await client.GetStringAsync(urlAddress);
+            }
+            catch (Exception)
+            {
+                txtExample.Text = "Brak dostepu do internetu lub nie znaleziono przykładu";
+            }
+
+
+
+            string searchForThis = vAng; //przechwycenie tekstu z textboxa którego ma szukać
+
+
+            //wzór wyszukania tekstu przy pomocy biblioteki regex
+            var pattern = String.Format("[^\\.]*\\b{0}\\b[^\\.]*", searchForThis);
+
+            //użycie drugi raz wzoru do ostatecznego wyczyszczenia znaczników html.
+            var pattern1 = String.Format("[^\\>]*\\b{0}\\b[^\\.]*", searchForThis);
+
+            //jeśli znalazło dopasowanie
+            if (Regex.IsMatch(searchHere, pattern))
+            {
+                //pętla wyświetlająca wszystkie dopasowania
+                /*
+                foreach (var matchedItem in Regex.Matches(searchWithinThis, pattern))
+                {
+
+                } */
+                //wyświetlanie odpowiedniego dopasowania
+
+                string result = Regex.Matches(searchHere, pattern)[18].ToString();
+                //wycięcie znaczników html
+                string noHTML = Regex.Replace(result, @"<[^>]+>|&nbsp;", "").Trim();
+                string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
+
+                //ostateczne czyszczenie znaczników html, jesli jeszcze zawierają tagi
+                if (noHTMLNormalised.Contains(">"))
+                {
+                    noHTMLNormalised = Regex.Match(noHTMLNormalised, pattern1).ToString();
+
+                    txtExample.Text = noHTMLNormalised;
+                }
+                else txtExample.Text = noHTMLNormalised;
+
+
+                //zrobić kolejne przejście w którym będzie zaczynało tekst od znaku >
+            }
+            else txtExample.Text = "Nie znaleziono przykładu";
+
 
 
         }
@@ -141,6 +205,7 @@ namespace LearnEnglish
             btnknow.IsEnabled = true;
             btndknow.IsEnabled = true;
             btnNext.Visibility = Visibility.Collapsed;
+            txtExample.Text = "Tutaj będzie przykładowe zdanie.";
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
                 var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
