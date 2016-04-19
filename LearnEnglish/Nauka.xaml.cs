@@ -52,11 +52,16 @@ namespace LearnEnglish
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
+            //utworzenie nowej zmiennej przechowującej ustawienia lokalne
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
          
+            //pobranie numeru zaznaczonego listview z kategorii
             int numer = Convert.ToInt32(listCategory.SelectedIndex);
+            //pobranie nazwy kategorii
             string result = (listCategory.Items[numer] as ListViewItem).Content.ToString();
-            localSettings.Values["Text"] = result;
+            //utworzenie nowej nazwy ustawień, która będzie przechowywała zaznaczoną kategorie w pamięci aplikacji
+            localSettings.Values["Kategoria"] = result;
+           // localSettings.Values.Remove("text");
             Frame.Navigate(typeof(Nauka1));
         }
     }

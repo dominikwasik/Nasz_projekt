@@ -38,7 +38,9 @@ namespace LearnEnglish
         {
             
             this.InitializeComponent();
-            txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Text"].ToString();
+
+            //załadowanie z ustawień nazwy wybranej kategorii
+            txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
 
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
