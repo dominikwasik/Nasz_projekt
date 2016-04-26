@@ -32,19 +32,64 @@ namespace LearnEnglish
     /// </summary>
     public sealed partial class Nauka1 : Page
     {
-
+        string kat = "";
         string vAng = "";
         public Nauka1()
         {
             
             this.InitializeComponent();
+            kat = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
 
+            //konwersja stringa z polskimi znakami na bez polskich znaków
+            StringBuilder sb = new StringBuilder(kat);
+
+            sb.Replace('ą', 'a')
+
+              .Replace('ć', 'c')
+
+              .Replace('ę', 'e')
+
+              .Replace('ł', 'l')
+
+              .Replace('ń', 'n')
+
+              .Replace('ó', 'o')
+
+              .Replace('ś', 's')
+
+              .Replace('ż', 'z')
+
+              .Replace('ź', 'z')
+
+              .Replace('Ą', 'A')
+
+              .Replace('Ć', 'C')
+
+              .Replace('Ę', 'E')
+
+              .Replace('Ł', 'L')
+
+              .Replace('Ń', 'N')
+
+              .Replace('Ó', 'O')
+
+              .Replace('Ś', 'S')
+
+              .Replace('Ż', 'Z')
+
+              .Replace('Ź', 'Z');
+
+
+
+            kat = sb.ToString();
+
+            
             //załadowanie z ustawień nazwy wybranej kategorii
             txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
 
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
-                var existing = conn.Query<tabela>(@"select * from 'Budynki' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                var existing = conn.Query<tabela>(@"select * from '"+kat+"' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 txtPol.Text = existing.pol;
                 vAng = existing.ang;
             }
@@ -70,64 +115,6 @@ namespace LearnEnglish
                 await new Windows.UI.Popups.MessageDialog("Aby móc poprawnie odsłuchiwać wyrazy, musisz zainstalować język angielski na swoim urządzeniu. Wybierz opcje POMOC z menu po lewej aby dowiedzieć się jak to zrobić.", "Brak komponentu").ShowAsync();
             }
 
-
-        }
-
-        private async void searchText(string searchWord)
-        {
-            //Wyświetlanie przykładowych zdań:
-            string urlAddress = "http://sentence.yourdictionary.com/" + searchWord;
-            HttpClient client = new HttpClient();
-            // string searchHere = await client.GetStringAsync(urlAddress);
-            string searchHere = "";
-
-            try
-            {
-                searchHere = await client.GetStringAsync(urlAddress);
-            }
-            catch (Exception)
-            {
-                txtExample.Text = "Brak dostepu do internetu lub nie znaleziono przykładu";
-            }
-
-
-            string searchForThis = vAng; //przechwycenie tekstu z textboxa którego ma szukać
-
-            //wzór wyszukania tekstu przy pomocy biblioteki regex
-            var pattern = String.Format("[^\\.]*\\b{0}\\b[^\\.]*", searchForThis);
-
-            //użycie drugi raz wzoru do ostatecznego wyczyszczenia znaczników html.
-            var pattern1 = String.Format("[^\\>]*\\b{0}\\b[^\\.]*", searchForThis);
-
-            //jeśli znalazło dopasowanie
-            if (Regex.IsMatch(searchHere, pattern))
-            {
-                //pętla wyświetlająca wszystkie dopasowania
-                /*
-                foreach (var matchedItem in Regex.Matches(searchWithinThis, pattern))
-                {
-
-                } */
-                //wyświetlanie odpowiedniego dopasowania
-
-                string result = Regex.Matches(searchHere, pattern)[18].ToString();
-                //wycięcie znaczników html
-                string noHTML = Regex.Replace(result, @"<[^>]+>|&nbsp;", "").Trim();
-                string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
-
-                //ostateczne czyszczenie znaczników html, jesli jeszcze zawierają tagi
-                if (noHTMLNormalised.Contains(">"))
-                {
-                    noHTMLNormalised = Regex.Match(noHTMLNormalised, pattern1).ToString();
-
-                    txtExample.Text = noHTMLNormalised;
-                }
-                else txtExample.Text = noHTMLNormalised;
-
-
-                //zrobić kolejne przejście w którym będzie zaczynało tekst od znaku >
-            }
-            else txtExample.Text = "Nie znaleziono przykładu";
 
         }
         private class tabela
@@ -168,7 +155,7 @@ namespace LearnEnglish
 
             
         }
-        private void btndknow_Click(object sender, RoutedEventArgs e)
+        private async void btndknow_Click(object sender, RoutedEventArgs e)
         {
             txtEng.Text = vAng;
             txtEng.Visibility = Visibility.Visible;
@@ -177,7 +164,64 @@ namespace LearnEnglish
             btndknow.IsEnabled = false;
             btnNext.Visibility = Visibility.Visible;
 
-            searchText(vAng);
+            //Wyświetlanie przykładowych zdań:
+
+            string urlAddress = "http://sentence.yourdictionary.com/" + vAng;
+            HttpClient client = new HttpClient();
+            // string searchHere = await client.GetStringAsync(urlAddress);
+            string searchHere = "";
+
+            try
+            {
+                searchHere = await client.GetStringAsync(urlAddress);
+            }
+            catch (Exception)
+            {
+                txtExample.Text = "Brak dostepu do internetu lub nie znaleziono przykładu";
+            }
+
+
+
+            string searchForThis = vAng; //przechwycenie tekstu z textboxa którego ma szukać
+
+
+            //wzór wyszukania tekstu przy pomocy biblioteki regex
+            var pattern = String.Format("[^\\.]*\\b{0}\\b[^\\.]*", searchForThis);
+
+            //użycie drugi raz wzoru do ostatecznego wyczyszczenia znaczników html.
+            var pattern1 = String.Format("[^\\>]*\\b{0}\\b[^\\.]*", searchForThis);
+
+            //jeśli znalazło dopasowanie
+            if (Regex.IsMatch(searchHere, pattern))
+            {
+                //pętla wyświetlająca wszystkie dopasowania
+                /*
+                foreach (var matchedItem in Regex.Matches(searchWithinThis, pattern))
+                {
+
+                } */
+                //wyświetlanie odpowiedniego dopasowania
+
+                string result = Regex.Matches(searchHere, pattern)[18].ToString();
+                //wycięcie znaczników html
+                string noHTML = Regex.Replace(result, @"<[^>]+>|&nbsp;", "").Trim();
+                string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
+
+                //ostateczne czyszczenie znaczników html, jesli jeszcze zawierają tagi
+                if (noHTMLNormalised.Contains(">"))
+                {
+                    noHTMLNormalised = Regex.Match(noHTMLNormalised, pattern1).ToString();
+
+                    txtExample.Text = noHTMLNormalised;
+                }
+                else txtExample.Text = noHTMLNormalised;
+
+
+                //zrobić kolejne przejście w którym będzie zaczynało tekst od znaku >
+            }
+            else txtExample.Text = "Nie znaleziono przykładu";
+
+
 
         }
 
@@ -190,6 +234,7 @@ namespace LearnEnglish
             
             if (inpEng.Text == vAng)
             {
+
                     txtEng.Text = vAng;
                     inpEng.Visibility = Visibility.Collapsed;
                     txtEng.Visibility = Visibility.Visible;
@@ -213,7 +258,7 @@ namespace LearnEnglish
             txtExample.Text = "Tutaj będzie przykładowe zdanie.";
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
-                var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                var existing = conn.Query<tabela>(@"select * from '" + kat + "' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 txtPol.Text = existing.pol;
                 vAng = existing.ang;
 
