@@ -15,7 +15,9 @@
                     <Button x:Name="btnShowPanel" HorizontalAlignment="Left" FontFamily="Segoe MDL2 Assets" Content="&#xE71D;" Height="50" Foreground="#FFAC0303"  Width="50" Background="Transparent" Click="btnShowPane_Click" />
                 </StackPanel>
                 <StackPanel x:Name="paneLearn" Orientation="Horizontal">
-                    <Button x:Name="btnStartLearn" FontFamily="Segoe MDL2 Assets" Content="&#xE8FC;" Height="50"  Width="50" Background="Transparent" Foreground="#FFE2CC3F" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" />
+                    <Button x:Name="btnStartLearn" FontFamily="Segoe MDL2 Assets" Height="50"  Width="50" Background="Transparent" Foreground="#FFE2CC3F" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" >
+                        <FlipView x:Name="flipView" HorizontalAlignment="Left" Margin="-15,6,-85,0" VerticalAlignment="Top" Width="100"/>
+                    </Button>
                     <TextBlock Text="Nauka" Foreground="#FFE2CC3F" FontSize="18" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
@@ -26,6 +28,7 @@
                     <Button x:Name="btnAbout" FontFamily="Segoe MDL2 Assets" Content="&#xE897;" Height="50"  Width="50" Background="Transparent" />
                     <TextBlock Text="Info" FontSize="18" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
+                
             </StackPanel>
         </SplitView.Pane>
         <SplitView.Content>
@@ -84,7 +87,7 @@
                     <ListViewItem>Marketing</ListViewItem>
                     <ListViewItem>Pieniądze</ListViewItem>
                     <ListViewItem>Stosunki pracowników</ListViewItem>
-                    <ListViewItem>Hadel</ListViewItem>
+                    <ListViewItem>Handel</ListViewItem>
                     <ListViewItem>Architektura</ListViewItem>
                     <ListViewItem>Komputery</ListViewItem>
                     <ListViewItem>Internet</ListViewItem>

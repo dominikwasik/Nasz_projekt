@@ -32,19 +32,64 @@ namespace LearnEnglish
     /// </summary>
     public sealed partial class Nauka1 : Page
     {
-
+        string kat = "";
         string vAng = "";
         public Nauka1()
         {
             
             this.InitializeComponent();
+            kat = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
 
+            //konwersja stringa z polskimi znakami na bez polskich znaków
+            StringBuilder sb = new StringBuilder(kat);
+
+            sb.Replace('ą', 'a')
+
+              .Replace('ć', 'c')
+
+              .Replace('ę', 'e')
+
+              .Replace('ł', 'l')
+
+              .Replace('ń', 'n')
+
+              .Replace('ó', 'o')
+
+              .Replace('ś', 's')
+
+              .Replace('ż', 'z')
+
+              .Replace('ź', 'z')
+
+              .Replace('Ą', 'A')
+
+              .Replace('Ć', 'C')
+
+              .Replace('Ę', 'E')
+
+              .Replace('Ł', 'L')
+
+              .Replace('Ń', 'N')
+
+              .Replace('Ó', 'O')
+
+              .Replace('Ś', 'S')
+
+              .Replace('Ż', 'Z')
+
+              .Replace('Ź', 'Z');
+
+
+
+            kat = sb.ToString();
+
+            
             //załadowanie z ustawień nazwy wybranej kategorii
             txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
 
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
-                var existing = conn.Query<tabela>(@"select * from 'Budynki' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                var existing = conn.Query<tabela>(@"select * from '"+kat+"' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 txtPol.Text = existing.pol;
                 vAng = existing.ang;
             }
@@ -189,6 +234,7 @@ namespace LearnEnglish
             
             if (inpEng.Text == vAng)
             {
+
                     txtEng.Text = vAng;
                     inpEng.Visibility = Visibility.Collapsed;
                     txtEng.Visibility = Visibility.Visible;
@@ -212,7 +258,7 @@ namespace LearnEnglish
             txtExample.Text = "Tutaj będzie przykładowe zdanie.";
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
-                var existing = conn.Query<tabela>(@"select * from Budynki where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                var existing = conn.Query<tabela>(@"select * from '" + kat + "' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 txtPol.Text = existing.pol;
                 vAng = existing.ang;
 
