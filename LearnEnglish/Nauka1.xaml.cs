@@ -115,6 +115,64 @@ namespace LearnEnglish
                 await new Windows.UI.Popups.MessageDialog("Aby móc poprawnie odsłuchiwać wyrazy, musisz zainstalować język angielski na swoim urządzeniu. Wybierz opcje POMOC z menu po lewej aby dowiedzieć się jak to zrobić.", "Brak komponentu").ShowAsync();
             }
 
+        }
+
+        //klasa odpowiadająca za szukanie zdań
+        private async void searchText(string searchWord)
+        {
+            //Wyświetlanie przykładowych zdań:
+            string urlAddress = "http://sentence.yourdictionary.com/" + searchWord;
+            HttpClient client = new HttpClient();
+            // string searchHere = await client.GetStringAsync(urlAddress);
+            string searchHere = "";
+
+            try
+            {
+                searchHere = await client.GetStringAsync(urlAddress);
+            }
+            catch (Exception)
+            {
+                txtExample.Text = "Brak dostepu do internetu lub nie znaleziono przykładu";
+            }
+
+
+            string searchForThis = vAng; //przechwycenie tekstu z textboxa którego ma szukać
+
+            //wzór wyszukania tekstu przy pomocy biblioteki regex
+            var pattern = String.Format("[^\\.]*\\b{0}\\b[^\\.]*", searchForThis);
+
+            //użycie drugi raz wzoru do ostatecznego wyczyszczenia znaczników html.
+            var pattern1 = String.Format("[^\\>]*\\b{0}\\b[^\\.]*", searchForThis);
+
+            //jeśli znalazło dopasowanie
+            if (Regex.IsMatch(searchHere, pattern))
+            {
+                //pętla wyświetlająca wszystkie dopasowania
+                /*
+                foreach (var matchedItem in Regex.Matches(searchWithinThis, pattern))
+                {
+
+                } */
+                //wyświetlanie odpowiedniego dopasowania
+
+                string result = Regex.Matches(searchHere, pattern)[18].ToString();
+                //wycięcie znaczników html
+                string noHTML = Regex.Replace(result, @"<[^>]+>|&nbsp;", "").Trim();
+                string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
+
+                //ostateczne czyszczenie znaczników html, jesli jeszcze zawierają tagi
+                if (noHTMLNormalised.Contains(">"))
+                {
+                    noHTMLNormalised = Regex.Match(noHTMLNormalised, pattern1).ToString();
+
+                    txtExample.Text = noHTMLNormalised;
+                }
+                else txtExample.Text = noHTMLNormalised;
+
+
+                //zrobić kolejne przejście w którym będzie zaczynało tekst od znaku >
+            }
+            else txtExample.Text = "Nie znaleziono przykładu";
 
         }
         private class tabela
@@ -155,7 +213,7 @@ namespace LearnEnglish
 
             
         }
-        private async void btndknow_Click(object sender, RoutedEventArgs e)
+        private void btndknow_Click(object sender, RoutedEventArgs e)
         {
             txtEng.Text = vAng;
             txtEng.Visibility = Visibility.Visible;
@@ -165,61 +223,7 @@ namespace LearnEnglish
             btnNext.Visibility = Visibility.Visible;
 
             //Wyświetlanie przykładowych zdań:
-
-            string urlAddress = "http://sentence.yourdictionary.com/" + vAng;
-            HttpClient client = new HttpClient();
-            // string searchHere = await client.GetStringAsync(urlAddress);
-            string searchHere = "";
-
-            try
-            {
-                searchHere = await client.GetStringAsync(urlAddress);
-            }
-            catch (Exception)
-            {
-                txtExample.Text = "Brak dostepu do internetu lub nie znaleziono przykładu";
-            }
-
-
-
-            string searchForThis = vAng; //przechwycenie tekstu z textboxa którego ma szukać
-
-
-            //wzór wyszukania tekstu przy pomocy biblioteki regex
-            var pattern = String.Format("[^\\.]*\\b{0}\\b[^\\.]*", searchForThis);
-
-            //użycie drugi raz wzoru do ostatecznego wyczyszczenia znaczników html.
-            var pattern1 = String.Format("[^\\>]*\\b{0}\\b[^\\.]*", searchForThis);
-
-            //jeśli znalazło dopasowanie
-            if (Regex.IsMatch(searchHere, pattern))
-            {
-                //pętla wyświetlająca wszystkie dopasowania
-                /*
-                foreach (var matchedItem in Regex.Matches(searchWithinThis, pattern))
-                {
-
-                } */
-                //wyświetlanie odpowiedniego dopasowania
-
-                string result = Regex.Matches(searchHere, pattern)[18].ToString();
-                //wycięcie znaczników html
-                string noHTML = Regex.Replace(result, @"<[^>]+>|&nbsp;", "").Trim();
-                string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
-
-                //ostateczne czyszczenie znaczników html, jesli jeszcze zawierają tagi
-                if (noHTMLNormalised.Contains(">"))
-                {
-                    noHTMLNormalised = Regex.Match(noHTMLNormalised, pattern1).ToString();
-
-                    txtExample.Text = noHTMLNormalised;
-                }
-                else txtExample.Text = noHTMLNormalised;
-
-
-                //zrobić kolejne przejście w którym będzie zaczynało tekst od znaku >
-            }
-            else txtExample.Text = "Nie znaleziono przykładu";
+            searchText(vAng);
 
 
 
