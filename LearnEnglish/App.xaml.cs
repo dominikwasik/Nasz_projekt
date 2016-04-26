@@ -88,6 +88,7 @@ namespace LearnEnglish
             StorageFolder desFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             try
             {
+                
                 StorageFile fileCheck = await desFolder.GetFileAsync("baza_slow3.sqlite");
             }
 
