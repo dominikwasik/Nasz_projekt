@@ -245,6 +245,12 @@ namespace LearnEnglish
                     btnNext.Visibility = Visibility.Visible;
                     btnknow.IsEnabled = false;
                     btndknow.IsEnabled = false;
+
+                    using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
+                    {
+                        conn.Execute(@"UPDATE '" + kat + "' SET zaliczone = 1  WHERE ang='" + vAng + "'");
+                    }
+
                 }
             else
             {

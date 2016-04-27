@@ -9,7 +9,7 @@
 
     <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  CompactPaneLength="50" OpenPaneLength="150" IsPaneOpen="False" Width="Auto">
         <SplitView.Pane>
-            <StackPanel Background="#FF595757">
+            <StackPanel Background="#FF830202">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="txtLogo" Text="English" FontSize="18" VerticalAlignment="Center" Visibility="Collapsed" Margin="50 0 0 0"></TextBlock>
                     <Button x:Name="btnShowPanel" HorizontalAlignment="Left" FontFamily="Segoe MDL2 Assets" Content="&#xE71D;" Height="50" Foreground="#FFAC0303"  Width="50" Background="Transparent" Click="btnShowPane_Click" />
@@ -31,7 +31,10 @@
             </StackPanel>
         </SplitView.Pane>
         <SplitView.Content>
-            <Grid Background="Black">
+            <Grid>
+                <Grid.Background>
+                    <ImageBrush Stretch="UniformToFill" ImageSource="assets/tlo.jpg"/>
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -44,15 +47,15 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="1" Text="LearnEnglish" FontSize="54" Foreground="White"
-                           HorizontalAlignment="Center" Margin="0 20 0 0" FontFamily="Snap ITC" />
+                <TextBlock Grid.Column="1" Text="LearnEnglish" FontSize="40" Foreground="White"
+                           HorizontalAlignment="Center" Margin="0 20 0 0" FontFamily="Elephant" />
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="Najlepsza Aplikacja do nauki języka angielskiego" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="24" Foreground="White"
-                           HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" FontFamily="Monotype Corsiva" />
+                           HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" FontFamily="Simplex" />
 
                 <TextBlock Grid.Column="1" Grid.Row="2" Text="Wybierz kategorie słówek do nauki." TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="24" Foreground="White"
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" />
 
-                <ListView x:Name="listCategory"  Grid.Column="1" Grid.Row="3"  Margin="0 5 200 50"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollMode="Enabled" Background="#7F76ACC5" Height="Auto" >
+                <ListView x:Name="listCategory"  Grid.Column="1" Grid.Row="3"  Margin="5 5 5 50"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollMode="Enabled" Background="#7F76ACC5" Height="Auto" >
                     <ListViewItem>Osobowość</ListViewItem>
                     <ListViewItem>Meble i wyposażenie</ListViewItem>
                     <ListViewItem>Emocje</ListViewItem>
@@ -110,7 +113,7 @@
                     <ListViewItem>Rower</ListViewItem>
                     <ListViewItem>Chemia</ListViewItem>
                 </ListView>
-                <Button Grid.Column="1" Grid.Row="3" x:Name="btnStart" Content="Rozpocznij " Width="100" Height="50" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 50 0 0" Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" UseSystemFocusVisuals="True" Background="#66FFFFFF" Click="btnStart_Click"></Button>
+                <Button Grid.Column="1" Grid.Row="3" x:Name="btnStart" Content="Rozpocznij " Width="100" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 50 0 0" Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" UseSystemFocusVisuals="True" Background="#66FFFFFF" Click="btnStart_Click"></Button>
             </Grid>
         </SplitView.Content>
     </SplitView>

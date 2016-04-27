@@ -9,7 +9,7 @@
     
     <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  CompactPaneLength="50" OpenPaneLength="150" IsPaneOpen="False" Width="Auto">
         <SplitView.Pane>
-            <StackPanel Background="#FF595757">
+            <StackPanel Background="#FF830202">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="txtLogo" Text="English" FontSize="18" VerticalAlignment="Center" Visibility="Collapsed" Margin="50 0 0 0"></TextBlock>
                     <Button x:Name="btnShowPanel" HorizontalAlignment="Left" FontFamily="Segoe MDL2 Assets" Content="&#xE71D;" Height="50" Foreground="#FFAC0303"  Width="50" Background="Transparent" Click="btnShowPane_Click" />
@@ -34,7 +34,10 @@
         </SplitView.Pane>
 
         <SplitView.Content>
-            <Grid Background="Black">
+            <Grid>
+                <Grid.Background>
+                    <ImageBrush Stretch="UniformToFill" ImageSource="assets/tlo.jpg"/>
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -50,7 +53,7 @@
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="txtCategory" Grid.Column="1" Text="Test" FontSize="54" Foreground="White"
-                           HorizontalAlignment="Center" Margin="0 20 0 0" FontFamily="Snap ITC" />
+                           HorizontalAlignment="Center" Margin="0 20 0 0" FontFamily="Elephant" />
                 <TextBlock x:Name="txtCount" Grid.Column="1" Text="0" FontSize="14" Foreground="White"
                             VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 30 30 0" />
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="Polish:" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14" Foreground="White"
@@ -60,7 +63,7 @@
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" />
                 <TextBlock Grid.Column="1" Grid.Row="3" Text="Wybierz pasujące słowo:" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14" Foreground="White"
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" FontFamily="Monotype Corsiva" />
-                <StackPanel x:Name="rbtnStackPanel" Background="#FF3A3A49" Grid.Column="1" Grid.Row="4">
+                <StackPanel x:Name="rbtnStackPanel" Background="#FF8F553F" Grid.Column="1" Grid.Row="4">
                     <RadioButton x:Name="rtnRight" GroupName="answer"  HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="Football" BorderBrush="White"/>
                     <RadioButton Content="Hospital" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
                     <RadioButton Content="Beautiful" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Foreground="White" />

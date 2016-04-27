@@ -125,6 +125,7 @@
   <ItemGroup>
     <Content Include="Assets\MainLogo.jpg" />
     <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\tlo.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
