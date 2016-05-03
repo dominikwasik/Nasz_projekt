@@ -23,7 +23,6 @@ namespace LearnEnglish
     public sealed partial class Nauka : Page
     {
         public string item = "";
-        
         public Nauka()
         {
             this.InitializeComponent();
@@ -71,6 +70,31 @@ namespace LearnEnglish
                 // localSettings.Values.Remove("text");
                 Frame.Navigate(typeof(Nauka1));
             }
+        }
+
+        private async void btnBrowse_Click(object sender, RoutedEventArgs e)
+        {
+
+            //utworzenie nowej zmiennej przechowującej ustawienia lokalne
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            //pobranie numeru zaznaczonego listview z kategorii
+            int numer = Convert.ToInt32(listCategory.SelectedIndex);
+            //sprawdzenie ile kategorii wybrano, jeśli żadnej, to wyswietli informacje
+            if (listCategory.SelectedItems.Count == 0)
+            {
+                await new Windows.UI.Popups.MessageDialog("Wybierz kategorie z listy.", "Wybierz Kategorie").ShowAsync();
+            }
+            else
+            {
+                //pobranie nazwy kategorii
+                string result = (listCategory.Items[numer] as ListViewItem).Content.ToString();
+                //utworzenie nowej nazwy ustawień, która będzie przechowywała zaznaczoną kategorie w pamięci aplikacji
+                localSettings.Values["Kategoria"] = result;
+                // localSettings.Values.Remove("text");
+                Frame.Navigate(typeof(Browser));
+            }
+
         }
     }
 }
