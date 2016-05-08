@@ -64,10 +64,10 @@
                 <TextBlock Grid.Column="1" Grid.Row="3" Text="Wybierz pasujące słowo:" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14" Foreground="White"
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" FontFamily="Monotype Corsiva" />
                 <StackPanel x:Name="rbtnStackPanel" Background="#FF8F553F" Grid.Column="1" Grid.Row="4">
-                    <RadioButton x:Name="rtnRight" GroupName="answer"  HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="Football" BorderBrush="White"/>
-                    <RadioButton Content="Hospital" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
-                    <RadioButton Content="Beautiful" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Foreground="White" />
-                    <RadioButton Content="Trunk" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Foreground="White" />
+                    <RadioButton x:Name ="ans1" GroupName="answer"  HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="Football" BorderBrush="White"/>
+                    <RadioButton x:Name ="ans2" Content="Hospital" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                    <RadioButton x:Name ="ans3" Content="Beautiful" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Foreground="White" />
+                    <RadioButton x:Name ="ans4" Content="Trunk" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Foreground="White" />
                 </StackPanel>
                 <Button x:Name="btnNext" Grid.Column="1" Grid.Row="5" Content="Dalej" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="50" Margin="0 0 0 0 " Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" Background="#66FFFFFF" Click="btnNext_Click"></Button>
                 

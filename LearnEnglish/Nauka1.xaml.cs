@@ -89,11 +89,11 @@ namespace LearnEnglish
 
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
-                var existing = conn.Query<tabela>(@"select * from '"+kat+"' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                var existing = conn.Query<tabela>(@"select * from '"+kat+"' where zaliczone=1 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 txtPol.Text = existing.pol;
+
                 vAng = existing.ang;
             }
-
         }
 
         //klasa odpowiadająca za czytanie słów
