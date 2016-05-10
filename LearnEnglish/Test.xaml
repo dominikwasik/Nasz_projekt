@@ -70,7 +70,7 @@
                     <RadioButton x:Name ="ans4" Content="Trunk" GroupName="answer" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Foreground="White" />
                 </StackPanel>
                 <Button x:Name="btnNext" Grid.Column="1" Grid.Row="5" Content="Dalej" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="50" Margin="0 0 0 0 " Foreground="#FFAC0303" BorderBrush="#FFC1C1C1" Background="#66FFFFFF" Click="btnNext_Click"></Button>
-                
+                <ProgressBar x:Name="prgProgress" Grid.Column="1" Grid.Row="5" Height="20"  Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" RequestedTheme="Light" SmallChange="0" Value="-1" Background="#E5000000" BorderThickness="5,1,5,5"></ProgressBar>
             </Grid>
         </SplitView.Content>
     </SplitView>

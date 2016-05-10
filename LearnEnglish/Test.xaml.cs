@@ -46,9 +46,9 @@ namespace LearnEnglish
         public Test()
         {
             this.InitializeComponent();
-           
-            
-            kat = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
+
+
+                kat = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
 
             //konwersja stringa z polskimi znakami na bez polskich znaków
             StringBuilder sb = new StringBuilder(kat);
@@ -97,6 +97,19 @@ namespace LearnEnglish
 
 
             txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
+
+            //wyswietlenie aktualnego progresu
+            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
+            {
+                //licznik pokazujący ile słów pozostało do zaliczenia z dalej kategorii
+                var pozostale = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=0");
+                var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "'");
+                var count1 = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=1");
+                txtCount.Text = pozostale.ToString();
+                //progressbar pokazujący postęp
+                prgProgress.Maximum = count;
+                prgProgress.Value = count1;
+            }
 
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
@@ -163,15 +176,12 @@ namespace LearnEnglish
             Frame.Navigate(typeof(Nauka));
         }
 
-        //licznik do testu
-        private float x = 0;
 
-        //licznik punktów
-        private float score = 0;
         private async void btnNext_Click(object sender, RoutedEventArgs e)
         {
             if (rbtnStackPanel.Children.OfType<RadioButton>().Any(rb => rb.IsChecked == true))
             {
+
 
                 if (ans1.IsChecked == true)
                 {
@@ -214,6 +224,7 @@ namespace LearnEnglish
                         }
                     }
                 }
+
                // x += 1;
                // txtCount.Text = x.ToString();
                 //if (rtnRight.IsChecked == true)
@@ -234,11 +245,17 @@ namespace LearnEnglish
                 await new Windows.UI.Popups.MessageDialog("Musisz wybrać przynajmniej jedną odpowiedź.", "Błąd").ShowAsync();
             }
 
+            //kolejne wybranie słowa po wcisnięciu przycisku next
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
                 //licznik pokazujący ile słów pozostało do zaliczenia z dalej kategorii
-                var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=0");
-                txtCount.Text = count.ToString();
+                var pozostale = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=0");
+                var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "'");
+                var count1 = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=1");
+                txtCount.Text = pozostale.ToString();
+                //progressbar pokazujący postęp
+                prgProgress.Maximum = count;
+                prgProgress.Value = count1;
 
                 var existing = conn.Query<tabela>(@"select * from '" + kat + "' where test=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 //zmienna gdzie przechowywana jest prawidłowa odpowiedz
