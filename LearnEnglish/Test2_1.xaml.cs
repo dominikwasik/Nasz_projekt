@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SQLite.Net;
 using Windows.UI.Popups;
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace LearnEnglish
@@ -22,14 +23,18 @@ namespace LearnEnglish
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Test : Page
+    public sealed partial class Test2_1 : Page
     {
         static Random _random = new Random();
         string kat = "";
-        string wynik = "";
         string koniec = "";
+        int ilosc = 0;
+        string rodzaj = "";
+        string wynik = "";
         string[] odpowiedziAng = new string[4];
         string[] odpowiedziPol = new string[4];
+        int progress = 0;
+
 
         //metoda sprawdzająca czy słówka w kategorii są już w 100% opanowane
         private void sprawdzenie()
@@ -58,15 +63,15 @@ namespace LearnEnglish
         private async void wysw()
         {
             var dialog = new Windows.UI.Popups.MessageDialog(
-                "Wygląda na to że znasz już wszystkie słowa z tej kategorii, kliknij powrót aby wrócić i wybrać inną kategorie","Wybierz inną kategorie");
+                "Wygląda na to że znasz już wszystkie słowa z tej kategorii, kliknij powrót aby wrócić i wybrać inną kategorie", "Wybierz inną kategorie");
 
             dialog.Commands.Add(new Windows.UI.Popups.UICommand("Powrót", new UICommandInvokedHandler(CommandHandler)));
             dialog.Commands.Add(new Windows.UI.Popups.UICommand("Zakończ", new UICommandInvokedHandler(CommandHandler)));
-            
+
             await dialog.ShowAsync();
 
         }
-        
+
         //obsługa przycisków z popup
         private void CommandHandler(IUICommand command)
         {
@@ -83,6 +88,7 @@ namespace LearnEnglish
                     break;
             }
         }
+
         static void Shuffle<T>(T[] array)
         {
             int n = array.Length;
@@ -97,21 +103,24 @@ namespace LearnEnglish
             }
         }
 
-        public Test()
+        public Test2_1()
         {
             this.InitializeComponent();
 
+            //pobranie zmiennych z okna Test2 które są zachowane w pamięci
+            kat = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategorie"].ToString();
+            ilosc = Convert.ToInt32(Windows.Storage.ApplicationData.Current.LocalSettings.Values["Ilosc"]);
+            rodzaj = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Rodzaj"].ToString();
 
-
-                kat = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
-
+            //wywolanie metody sprawdzenia czy słówka są opanowane
             sprawdzenie();
             if (koniec == "koniec")
             {
                 goto koniec;
             }
-                //konwersja stringa z polskimi znakami na bez polskich znaków
-                StringBuilder sb = new StringBuilder(kat);
+
+            //konwersja stringa z polskimi znakami na bez polskich znaków
+            StringBuilder sb = new StringBuilder(kat);
 
             sb.Replace('ą', 'a')
 
@@ -152,23 +161,22 @@ namespace LearnEnglish
 
 
             kat = sb.ToString();
-            
-            
 
 
-            txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
+
+
+            txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategorie"].ToString();
 
             //wyswietlenie aktualnego progresu
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
-                //licznik pokazujący ile słów pozostało do zaliczenia z dalej kategorii
+                //licznik pokazujący ile słów pozostało do zaliczenia z danej kategorii
                 var pozostale = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=0");
                 var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "'");
                 var count1 = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=1");
                 txtCount.Text = pozostale.ToString();
                 //progressbar pokazujący postęp
-                prgProgress.Maximum = count;
-                prgProgress.Value = count1;
+                prgProgress.Maximum = ilosc;
             }
 
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
@@ -176,14 +184,13 @@ namespace LearnEnglish
                 //licznik pokazujący ile słów pozostało do zaliczenia z dalej kategorii
                 var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=0");
                 txtCount.Text = count.ToString();
-                
+
                 var existing = conn.Query<tabela>(@"select * from '" + kat + "' where test=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 //zmienna gdzie przechowywana jest prawidłowa odpowiedz
                 wynik = existing.ang;
-
                 //Wrzuca odp z wynikiem do tablicy
                 odpowiedziAng[0] = existing.ang;
-               // Ładuje słowo polskie to textboxa w panelu testu
+                // Ładuje słowo polskie to textboxa w panelu testu
                 txtPol.Text = existing.pol;
 
                 //petla gdzie laduje pozostale randomowe odpowiedzi do tablicy odpowiedzi
@@ -191,11 +198,10 @@ namespace LearnEnglish
                 {
                     existing = conn.Query<tabela>(@"select * from '" + kat + "'where test=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                     odpowiedziAng[i] = existing.ang;
-                   
-                }
-                
-            }
 
+                }
+
+            }
             //wymieszanie odpowiedzi
             Shuffle(odpowiedziAng);
             // wstawienie odpowiedzi do radiobuttonów
@@ -203,11 +209,11 @@ namespace LearnEnglish
             ans2.Content = odpowiedziAng[1];
             ans3.Content = odpowiedziAng[2];
             ans4.Content = odpowiedziAng[3];
-        koniec: if (koniec=="koniec")
+        koniec: if (koniec == "koniec")
             {
-                    wysw();
-              //  RoutedEventArgs ee = new RoutedEventArgs();
-               // btnBack_Click(this.btnBack, ee);
+                wysw();
+                //  RoutedEventArgs ee = new RoutedEventArgs();
+                // btnBack_Click(this.btnBack, ee);
             }
         }
 
@@ -247,6 +253,14 @@ namespace LearnEnglish
 
         private async void btnNext_Click(object sender, RoutedEventArgs e)
         {
+            if (prgProgress.Value == prgProgress.Maximum)
+            {
+                await new Windows.UI.Popups.MessageDialog("Ukończyłeś test.", "Koniec").ShowAsync();
+            }
+
+            else
+            {
+
             if (rbtnStackPanel.Children.OfType<RadioButton>().Any(rb => rb.IsChecked == true))
             {
 
@@ -259,55 +273,59 @@ namespace LearnEnglish
                         {
                             conn.Execute(@"UPDATE '" + kat + "' SET test = 1  WHERE ang='" + wynik + "'");
                         }
+                        progress += 1;
                     }
                 }
-                    if (ans2.IsChecked == true)
+                if (ans2.IsChecked == true)
+                {
+                    if (wynik == ans2.Content.ToString())
                     {
-                        if (wynik == ans2.Content.ToString())
+                        using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
                         {
-                            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
-                            {
-                                conn.Execute(@"UPDATE '" + kat + "' SET test = 1  WHERE ang='" + wynik + "'");
-                            }
+                            conn.Execute(@"UPDATE '" + kat + "' SET test = 1  WHERE ang='" + wynik + "'");
                         }
-                    }
-                    if (ans3.IsChecked == true)
-                    {
-                        if (wynik == ans3.Content.ToString())
-                        {
-                            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
-                            {
-                                conn.Execute(@"UPDATE '" + kat + "' SET test = 1  WHERE ang='" + wynik + "'");
-                            }
-                        }
-                    }
-                    if (ans4.IsChecked == true)
-                    {
-                        if (wynik == ans4.Content.ToString())
-                        {
-                            using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
-                            {
-                                conn.Execute(@"UPDATE '" + kat + "' SET test = 1  WHERE ang='" + wynik + "'");
-                            }
-                        }
+                        progress += 1;
                     }
                 }
+                if (ans3.IsChecked == true)
+                {
+                    if (wynik == ans3.Content.ToString())
+                    {
+                        using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
+                        {
+                            conn.Execute(@"UPDATE '" + kat + "' SET test = 1  WHERE ang='" + wynik + "'");
+                        }
+                        progress += 1;
+                    }
+                }
+                if (ans4.IsChecked == true)
+                {
+                    if (wynik == ans4.Content.ToString())
+                    {
+                        using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
+                        {
+                            conn.Execute(@"UPDATE '" + kat + "' SET test = 1  WHERE ang='" + wynik + "'");
+                        }
+                        progress += 1;
+                    }
+                }
+            }
 
-               // x += 1;
-               // txtCount.Text = x.ToString();
-                //if (rtnRight.IsChecked == true)
-                //{
-                //    score += 1;
-               // }
+            // x += 1;
+            // txtCount.Text = x.ToString();
+            //if (rtnRight.IsChecked == true)
+            //{
+            //    score += 1;
+            // }
 
-               // if (score == 3)
-             //   {
-             //
-              //      float procent = (score / x) * 100;
+            // if (score == 3)
+            //   {
             //
-                   // await new Windows.UI.Popups.MessageDialog("Na " + x + " pytań, udzeliłeś " + score + " poprawnych odpowiedzi, w tym teście uzyskałeś " + procent + " procent", "Wynik").ShowAsync();
-               // }
-            
+            //      float procent = (score / x) * 100;
+            //
+            // await new Windows.UI.Popups.MessageDialog("Na " + x + " pytań, udzeliłeś " + score + " poprawnych odpowiedzi, w tym teście uzyskałeś " + procent + " procent", "Wynik").ShowAsync();
+            // }
+
             else
             {
                 await new Windows.UI.Popups.MessageDialog("Musisz wybrać przynajmniej jedną odpowiedź.", "Błąd").ShowAsync();
@@ -321,9 +339,6 @@ namespace LearnEnglish
                 var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "'");
                 var count1 = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=1");
                 txtCount.Text = pozostale.ToString();
-                //progressbar pokazujący postęp
-                prgProgress.Maximum = count;
-                prgProgress.Value = count1;
 
                 var existing = conn.Query<tabela>(@"select * from '" + kat + "' where test=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 //zmienna gdzie przechowywana jest prawidłowa odpowiedz
@@ -332,6 +347,7 @@ namespace LearnEnglish
                 odpowiedziAng[0] = existing.ang;
                 // Ładuje słowo polskie to textboxa w panelu testu
                 txtPol.Text = existing.pol;
+                prgProgress.Value = progress;
 
                 //petla gdzie laduje pozostale randomowe odpowiedzi do tablicy odpowiedzi
                 for (int i = 1; i < 4; i++)
@@ -350,6 +366,7 @@ namespace LearnEnglish
             ans3.Content = odpowiedziAng[2];
             ans4.Content = odpowiedziAng[3];
 
+        }
         }
     }
 }

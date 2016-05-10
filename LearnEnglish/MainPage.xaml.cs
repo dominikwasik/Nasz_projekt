@@ -57,7 +57,7 @@ namespace LearnEnglish
 
         private void btnStartTest_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(Test));
+            Frame.Navigate(typeof(Test2));
         }
 
         
