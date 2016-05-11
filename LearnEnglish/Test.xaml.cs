@@ -105,11 +105,7 @@ namespace LearnEnglish
 
                 kat = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
 
-            sprawdzenie();
-            if (koniec == "koniec")
-            {
-                goto koniec;
-            }
+
                 //konwersja stringa z polskimi znakami na bez polskich znaków
                 StringBuilder sb = new StringBuilder(kat);
 
@@ -152,8 +148,12 @@ namespace LearnEnglish
 
 
             kat = sb.ToString();
-            
-            
+
+            sprawdzenie();
+            if (koniec == "koniec")
+            {
+                goto koniec;
+            }
 
 
             txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();

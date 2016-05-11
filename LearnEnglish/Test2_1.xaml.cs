@@ -34,8 +34,7 @@ namespace LearnEnglish
         string[] odpowiedziAng = new string[4];
         string[] odpowiedziPol = new string[4];
         int progress = 0;
-
-
+        tabela zmienna;
         //metoda sprawdzająca czy słówka w kategorii są już w 100% opanowane
         private void sprawdzenie()
         {
@@ -64,6 +63,17 @@ namespace LearnEnglish
         {
             var dialog = new Windows.UI.Popups.MessageDialog(
                 "Wygląda na to że znasz już wszystkie słowa z tej kategorii, kliknij powrót aby wrócić i wybrać inną kategorie", "Wybierz inną kategorie");
+
+            dialog.Commands.Add(new Windows.UI.Popups.UICommand("Powrót", new UICommandInvokedHandler(CommandHandler)));
+            dialog.Commands.Add(new Windows.UI.Popups.UICommand("Zakończ", new UICommandInvokedHandler(CommandHandler)));
+
+            await dialog.ShowAsync();
+
+        }
+        private async void wysw1()
+        {
+            var dialog = new Windows.UI.Popups.MessageDialog(
+                "Żadne słówka z tej kategorii nie są oznaczone jako znane, wybierz opcje 'Wszystkie słówka' z poprzedniego menu.", "Brak słówek do wyświetlenia");
 
             dialog.Commands.Add(new Windows.UI.Popups.UICommand("Powrót", new UICommandInvokedHandler(CommandHandler)));
             dialog.Commands.Add(new Windows.UI.Popups.UICommand("Zakończ", new UICommandInvokedHandler(CommandHandler)));
@@ -184,8 +194,21 @@ namespace LearnEnglish
                 //licznik pokazujący ile słów pozostało do zaliczenia z dalej kategorii
                 var count = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=0");
                 txtCount.Text = count.ToString();
-
-                var existing = conn.Query<tabela>(@"select * from '" + kat + "' where test=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                //tabela zmienna;
+                if (rodzaj=="Tylko znane")
+                {
+                    zmienna = conn.Query<tabela>(@"select * from '" + kat + "' where zaliczone=1 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                    if (zmienna==null)
+                    {
+                        koniec = "koniec";
+                        goto koniec;
+                    }
+                }
+                else
+                {
+                    zmienna = conn.Query<tabela>(@"select * from '" + kat + "' where test=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                }
+                var existing = zmienna;
                 //zmienna gdzie przechowywana jest prawidłowa odpowiedz
                 wynik = existing.ang;
                 //Wrzuca odp z wynikiem do tablicy
@@ -211,7 +234,15 @@ namespace LearnEnglish
             ans4.Content = odpowiedziAng[3];
         koniec: if (koniec == "koniec")
             {
-                wysw();
+                if (zmienna==null)
+                {
+                    wysw1();
+                }
+                else
+                {
+                    wysw();
+                }
+
                 //  RoutedEventArgs ee = new RoutedEventArgs();
                 // btnBack_Click(this.btnBack, ee);
             }
@@ -340,9 +371,18 @@ namespace LearnEnglish
                 var count1 = conn.ExecuteScalar<int>("SELECT Count(*) FROM '" + kat + "' where test=1");
                 txtCount.Text = pozostale.ToString();
 
-                var existing = conn.Query<tabela>(@"select * from '" + kat + "' where test=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
-                //zmienna gdzie przechowywana jest prawidłowa odpowiedz
-                wynik = existing.ang;
+                    tabela zmienna;
+                    if (rodzaj == "Tylko znane")
+                    {
+                        zmienna = conn.Query<tabela>(@"select * from '" + kat + "' where zaliczone=1 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                    }
+                    else
+                    {
+                        zmienna = conn.Query<tabela>(@"select * from '" + kat + "' where test=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
+                    }
+                    var existing = zmienna;
+                    //zmienna gdzie przechowywana jest prawidłowa odpowiedz
+                    wynik = existing.ang;
                 //Wrzuca odp z wynikiem do tablicy
                 odpowiedziAng[0] = existing.ang;
                 // Ładuje słowo polskie to textboxa w panelu testu
