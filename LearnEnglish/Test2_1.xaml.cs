@@ -286,7 +286,10 @@ namespace LearnEnglish
         {
             if (prgProgress.Value == prgProgress.Maximum)
             {
-                await new Windows.UI.Popups.MessageDialog("Ukończyłeś test.", "Koniec").ShowAsync();
+                int score = Convert.ToInt32(prgProgress.Maximum);
+                float your_score = progress;
+                float procent = (your_score / score) * 100;
+                await new Windows.UI.Popups.MessageDialog("Ukończyłeś test. Na "+score+" pytań, udzieliłeś "+your_score+" poprawnych odpowiedzi.", "Wynik testu = "+procent+"%").ShowAsync();
             }
 
             else
@@ -294,7 +297,8 @@ namespace LearnEnglish
 
             if (rbtnStackPanel.Children.OfType<RadioButton>().Any(rb => rb.IsChecked == true))
             {
-
+                    //zwiekszenie wartosci progressbar po każdym pytaniu
+                    prgProgress.Value += 1;
 
                 if (ans1.IsChecked == true)
                 {
@@ -387,7 +391,7 @@ namespace LearnEnglish
                 odpowiedziAng[0] = existing.ang;
                 // Ładuje słowo polskie to textboxa w panelu testu
                 txtPol.Text = existing.pol;
-                prgProgress.Value = progress;
+               // prgProgress.Value = progress;
 
                 //petla gdzie laduje pozostale randomowe odpowiedzi do tablicy odpowiedzi
                 for (int i = 1; i < 4; i++)

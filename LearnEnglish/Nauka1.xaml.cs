@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Notifications;
 
 
 
@@ -34,9 +35,25 @@ namespace LearnEnglish
     {
         string kat = "";
         string vAng = "";
+
+        public void kafelka(string angielski, string polski)
+        {
+            var tileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150Text01);
+
+            var tileAttributes = tileXml.GetElementsByTagName("text");
+            tileAttributes[0].AppendChild(tileXml.CreateTextNode(angielski));
+            var tileAttributes1 = tileXml.GetElementsByTagName("text");
+            tileAttributes[1].AppendChild(tileXml.CreateTextNode(polski));
+
+            var tileNotification = new TileNotification(tileXml);
+            TileUpdateManager.CreateTileUpdaterForApplication().Update(tileNotification);
+
+        }
         public Nauka1()
         {
-            
+
+
+
             this.InitializeComponent();
             kat = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategoria"].ToString();
 
@@ -93,6 +110,8 @@ namespace LearnEnglish
                 txtPol.Text = existing.pol;
 
                 vAng = existing.ang;
+
+                kafelka(existing.ang, existing.pol);
             }
         }
 
@@ -271,7 +290,7 @@ namespace LearnEnglish
                 var existing = conn.Query<tabela>(@"select * from '" + kat + "' where zaliczone=0 ORDER BY RANDOM() LIMIT 1").FirstOrDefault();
                 txtPol.Text = existing.pol;
                 vAng = existing.ang;
-
+                kafelka(existing.ang, existing.pol);
 
             }
             
