@@ -10,25 +10,21 @@
         <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  CompactPaneLength="70" OpenPaneLength="200" IsPaneOpen="False" Width="Auto">
             <SplitView.Pane>
             <StackPanel Background="#FF830202">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="txtLogo" Text="English" FontSize="18" VerticalAlignment="Center" Visibility="Collapsed" Margin="50 0 0 0"></TextBlock>
-                        <Button x:Name="btnShowPanel" HorizontalAlignment="Left" FontFamily="Segoe MDL2 Assets" FontSize="30" Content="&#xE71D;" Height="50" Foreground="White"  Width="80" Background="Transparent" Click="btnShowPane_Click" />
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btnShowPanel" HorizontalAlignment="Left" FontFamily="Segoe MDL2 Assets" FontSize="30" Content="&#xE71D;" Height="50" Foreground="White"  Width="80" Background="Transparent" Click="btnShowPane_Click" />
                     </StackPanel>
+              
                     <StackPanel x:Name="paneLearn" Orientation="Horizontal">
                     <Button x:Name="btnStartLearn" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE8FC;" Height="50" Width="200" Padding="-120 0 0 0"  Background="Transparent" Foreground="White" Click="btnStartLearn_Click" />
-                    <TextBlock Text="Nauka" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White"></TextBlock>
+                    <TextBlock Text="Nauka" FontSize="25" VerticalAlignment="Center" Margin="-120" IsHitTestVisible="False" Foreground="White" ></TextBlock>
                     </StackPanel>
-                    <StackPanel x:Name="paneTest" Orientation="Horizontal">
+                <StackPanel x:Name="paneTest" Orientation="Horizontal">
                     <Button x:Name="btnStartTest" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE70F;" Height="50" Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" Click="btnStartTest_Click"  />
-                    <TextBlock Text="Test" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White"> </TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                    <Button x:Name="btnSettings" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE713;" Height="50"  Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" />
-                    <TextBlock Text="Ustawienia" FontSize="23" VerticalAlignment="Center" Margin="-120" Foreground="White"></TextBlock>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                    <Button x:Name="btnAbout" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE897;" Height="50"  Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" />
-                    <TextBlock Text="Info" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White"></TextBlock>
+                    <TextBlock Text="Test" FontSize="25" VerticalAlignment="Center" Margin="-120" IsHitTestVisible="False" Foreground="White"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btnAbout" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE897;" Height="50"  Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" Click="btnAbout_Click" />
+                    <TextBlock Text="Info" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White" IsHitTestVisible="False"></TextBlock>
                     </StackPanel>
                 </StackPanel>
             </SplitView.Pane>

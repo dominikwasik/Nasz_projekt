@@ -11,20 +11,19 @@
         <SplitView.Pane>
             <StackPanel Background="#FF830202">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="txtLogo" Text="English" FontSize="18" VerticalAlignment="Center" Visibility="Collapsed" Margin="50 0 0 0"></TextBlock>
                     <Button x:Name="btnShowPanel" HorizontalAlignment="Left" FontFamily="Segoe MDL2 Assets" FontSize="30" Content="&#xE71D;" Height="50" Foreground="White"  Width="80" Background="Transparent" Click="btnShowPane_Click" />
                 </StackPanel>
                 <StackPanel x:Name="paneLearn" Orientation="Horizontal">
                     <Button x:Name="btnStartLearn" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE8FC;" Height="50" Width="200" Padding="-120 0 0 0"  Background="Transparent" Foreground="Yellow"  />
-                    <TextBlock Text="Nauka" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="Yellow"></TextBlock>
+                    <TextBlock Text="Nauka" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="Yellow" IsHitTestVisible="False"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btnBack" FontFamily="Segoe MDL2 Assets"  FontSize="25" Content="&#xE830;" Height="50"   Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" Click="btnBack_Click" />
-                    <TextBlock Text="Powrót" FontSize="25" VerticalAlignment="Center" Margin="-120" TextWrapping="Wrap"  Foreground="White"></TextBlock>
+                    <TextBlock Text="Powrót" FontSize="25" VerticalAlignment="Center" Margin="-120" TextWrapping="Wrap"  Foreground="White" IsHitTestVisible="False"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="btnAbout" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE897;" Height="50"  Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" />
-                    <TextBlock Text="Info" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White"></TextBlock>
+                    <Button x:Name="btnAbout" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE897;" Height="50"  Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" Click="btnAbout_Click" />
+                    <TextBlock Text="Info" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White" IsHitTestVisible="False"></TextBlock>
                 </StackPanel>
 
             </StackPanel>
@@ -51,17 +50,17 @@
                 <MediaElement x:Name="mediaSound"></MediaElement>
                 <TextBlock x:Name="txtCategory" Grid.Column="1" Text="Sport" FontSize="40" FontStretch="Condensed" TextWrapping="WrapWholeWords" Foreground="#FFC32323"
                            HorizontalAlignment="Center" Margin="0 20 0 0" FontFamily="News706 BT" />
-                
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="Polish:" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="24" Foreground="White"
+
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Po polsku:" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="24" Foreground="White"
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 50 0 0" FontFamily="News706 BT" />
 
                 <TextBlock x:Name="txtPol" Grid.Column="1" Grid.Row="2" Text="Piłka nożna" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="24" Foreground="White"
-                           HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" />
+                           HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" FontWeight="Bold" />
                 <TextBlock Grid.Column="1" Grid.Row="3" Text="English:" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="24" Foreground="White"
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 30 0 0" FontFamily="News706 BT" />
                 <TextBlock x:Name="txtEng" Grid.Column="1" Grid.Row="4" Text="" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="24" Foreground="#FF51FF00"
                            HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 5 0 0" Visibility="Collapsed" FontWeight="Bold" />
-                <TextBlock x:Name="txtExample" Grid.Column="1" Grid.Row="4" Text="Tutaj będzie przykładowe zdanie." Visibility="Visible" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 68 0 0" Foreground="#FF51FF00" TextWrapping="WrapWholeWords"></TextBlock>
+                <TextBlock x:Name="txtExample" Grid.Column="1" Grid.Row="4" Text="Tutaj będzie przykładowe zdanie." Visibility="Visible" FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 68 0 0" TextWrapping="WrapWholeWords" Foreground="#FF00FF74" FontWeight="ExtraBlack"/>
                 <Button x:Name="btnSpeak" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Content="&#xE890;" Height="40" Foreground="Black"  Width="80" Margin="300 0 0 0" FontWeight="Bold" FontSize="24" Click="btnSpeak_Click" >
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

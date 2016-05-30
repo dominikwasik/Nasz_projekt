@@ -36,18 +36,7 @@ namespace LearnEnglish
         private void btnShowPane_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-            txtLogo.Visibility = Visibility.Visible;
-            
-            //Aby logo chowało się po zamknięciu panelu
-            if (MySplitView.IsPaneOpen==true)
-            {
-                txtLogo.Visibility = Visibility.Visible;
 
-            }
-            else
-            {
-                txtLogo.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void btnStartLearn_Click(object sender, RoutedEventArgs e)
@@ -60,6 +49,9 @@ namespace LearnEnglish
             Frame.Navigate(typeof(Test2));
         }
 
-        
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Info));
+        }
     }
 }

@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SQLite.Net;
 using Windows.UI.Popups;
+using Windows.Media.SpeechSynthesis;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -36,9 +37,41 @@ namespace LearnEnglish
         int good_answer = 0;
         int bad_answer = 0;
         tabela zmienna;
-        //metoda sprawdzająca czy słówka w kategorii są już w 100% opanowane
-        private void sprawdzenie()
+
+
+        //klasa odpowiadająca za czytanie słów
+        private async void readText(string text)
         {
+
+            var voices = SpeechSynthesizer.AllVoices;
+            //nowy obiekt speechsynthesizer
+            SpeechSynthesizer speech = new SpeechSynthesizer();
+            //wybranie głosu angielskiego i sprawdzenie czy taki jest zainstalowany
+            try
+            {
+                speech.Voice = voices.First(x => x.Gender == VoiceGender.Male && x.Language.Contains("pl-PL"));
+                SpeechSynthesisStream stream = await speech.SynthesizeTextToStreamAsync(text);
+                mediaSound.SetSource(stream, stream.ContentType);
+            }
+            catch (Exception)
+            {
+                await new Windows.UI.Popups.MessageDialog("Aby móc poprawnie odsłuchiwać wyrazy, musisz zainstalować język angielski na swoim urządzeniu. Wybierz opcje POMOC z menu po lewej aby dowiedzieć się jak to zrobić.", "Brak komponentu").ShowAsync();
+            }
+
+        }
+
+        //metoda sprawdzająca czy słówka w kategorii są już w 100% opanowane
+        private async void sprawdzenie()
+        {
+            //sprawdzenie jeśli ktoś wybrał że chce zaliczać z 0 odpowiedzi
+            if (ilosc == 0)
+            {
+                readText("Ojojoj, nieładnie tak oszukiwać. Wierzę że potrafisz rozwiązać test składający się z więcej niż ZERO odpowiedzi.");
+                await new Windows.UI.Popups.MessageDialog("Niestety, ale ten błąd też przewidzieliśmy.", "Błąd").ShowAsync();
+                Frame.GoBack();
+            }
+
+
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
                 //licznik pokazujący ile słów pozostało do zaliczenia z dalej kategorii
@@ -178,6 +211,7 @@ namespace LearnEnglish
 
             txtCategory.Text = Windows.Storage.ApplicationData.Current.LocalSettings.Values["Kategorie"].ToString();
 
+
             //wyswietlenie aktualnego progresu
             using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
             {
@@ -188,7 +222,7 @@ namespace LearnEnglish
                 txtCount.Text = pozostale.ToString();
                 //progressbar pokazujący postęp
                 prgProgress.Maximum = ilosc;
-                prgBad.Maximum = ilosc;
+               // prgBad.Maximum = ilosc;
                 prgGood.Maximum = ilosc;
             }
 
@@ -289,6 +323,8 @@ namespace LearnEnglish
 
         private async void btnNext_Click(object sender, RoutedEventArgs e)
         {
+
+            prgProgress.Value += 1;
             if (prgProgress.Value == prgProgress.Maximum)
             {
                 int score = Convert.ToInt32(prgProgress.Maximum);
@@ -361,9 +397,8 @@ namespace LearnEnglish
                     goto brak_wyboru;
             }
 
-                prgProgress.Value += 1;
+
                 prgGood.Value = good_answer;
-                prgBad.Value = bad_answer;
 
                 //kolejne wybranie słowa po wcisnięciu przycisku next
                 using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
@@ -409,6 +444,11 @@ namespace LearnEnglish
             brak_wyboru:;
 
         }
+        }
+
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Info));
         }
     }
 }

@@ -221,16 +221,6 @@ namespace LearnEnglish
         private void btnShowPane_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-            txtLogo.Visibility = Visibility.Visible;
-            if (MySplitView.IsPaneOpen == true)
-            {
-                txtLogo.Visibility = Visibility.Visible;
-
-            }
-            else
-            {
-                txtLogo.Visibility = Visibility.Collapsed;
-            }
         }
 
 
@@ -350,6 +340,11 @@ namespace LearnEnglish
             ans3.Content = odpowiedziAng[2];
             ans4.Content = odpowiedziAng[3];
 
+        }
+
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Info));
         }
     }
 }

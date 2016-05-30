@@ -173,8 +173,11 @@ namespace LearnEnglish
 
                 } */
                 //wyświetlanie odpowiedniego dopasowania
-
-                string result = Regex.Matches(searchHere, pattern)[18].ToString();
+                string result = "";
+                try {
+                    result = Regex.Matches(searchHere, pattern)[18].ToString();
+                    }
+                catch (Exception) { result = "Brak"; }
                 //wycięcie znaczników html
                 string noHTML = Regex.Replace(result, @"<[^>]+>|&nbsp;", "").Trim();
                 string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
@@ -184,9 +187,9 @@ namespace LearnEnglish
                 {
                     noHTMLNormalised = Regex.Match(noHTMLNormalised, pattern1).ToString();
 
-                    txtExample.Text = noHTMLNormalised;
+                    txtExample.Text = noHTMLNormalised+".";
                 }
-                else txtExample.Text = noHTMLNormalised;
+                else txtExample.Text = noHTMLNormalised+".";
 
 
                 //zrobić kolejne przejście w którym będzie zaczynało tekst od znaku >
@@ -206,16 +209,7 @@ namespace LearnEnglish
             private void btnShowPane_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-            txtLogo.Visibility = Visibility.Visible;
-            if (MySplitView.IsPaneOpen == true)
-            {
-                txtLogo.Visibility = Visibility.Visible;
 
-            }
-            else
-            {
-                txtLogo.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -264,7 +258,7 @@ namespace LearnEnglish
                     btnNext.Visibility = Visibility.Visible;
                     btnknow.IsEnabled = false;
                     btndknow.IsEnabled = false;
-
+                    searchText(vAng);
                     using (SQLite.Net.SQLiteConnection conn = new SQLite.Net.SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), Windows.Storage.ApplicationData.Current.LocalFolder.Path + "\\baza_slow3.sqlite"))
                     {
                         conn.Execute(@"UPDATE '" + kat + "' SET zaliczone = 1  WHERE ang='" + vAng + "'");
@@ -307,6 +301,11 @@ namespace LearnEnglish
                 await new Windows.UI.Popups.MessageDialog("Aby móc poprawnie odsłuchiwać wyrazy, musisz zainstalować język angielski na swoim urządzeniu. Wybierz opcje POMOC z menu po lewej aby dowiedzieć się jak to zrobić.", "Brak komponentu").ShowAsync();
             }
             
+        }
+
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Info));
         }
     }
 }

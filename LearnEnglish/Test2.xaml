@@ -10,24 +10,23 @@
         <SplitView.Pane>
             <StackPanel Background="#FF830202">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="txtLogo" Text="English" FontSize="18" VerticalAlignment="Center" Visibility="Collapsed" Margin="50 0 0 0"></TextBlock>
                     <Button x:Name="btnShowPanel" HorizontalAlignment="Left" FontFamily="Segoe MDL2 Assets" FontSize="30" Content="&#xE71D;" Height="50" Foreground="White"  Width="80" Background="Transparent" Click="btnShowPane_Click" />
                 </StackPanel>
                 <StackPanel x:Name="paneLearn" Orientation="Horizontal">
                     <Button x:Name="btnStartLearn" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE8FC;" Height="50" Width="200" Padding="-120 0 0 0"  Background="Transparent" Foreground="White" Click="btnStartLearn_Click" />
-                    <TextBlock Text="Nauka" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White"></TextBlock>
+                    <TextBlock Text="Nauka" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White" IsHitTestVisible="False"></TextBlock>
                 </StackPanel>
                 <StackPanel x:Name="paneTest" Orientation="Horizontal">
                     <Button x:Name="btnStartTest" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE70F;" Height="50" Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="Yellow"  />
-                    <TextBlock Text="Test" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="Yellow"></TextBlock>
+                    <TextBlock Text="Test" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="Yellow" IsHitTestVisible="False"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btnBack" FontFamily="Segoe MDL2 Assets"  FontSize="25" Content="&#xE830;" Height="50"   Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" Click="btnBack_Click" ToolTipService.ToolTip="Powrót do głównego menu." />
-                    <TextBlock Text="Powrót" FontSize="25" VerticalAlignment="Center" Margin="-120" TextWrapping="Wrap"  Foreground="White" ></TextBlock>
+                    <TextBlock Text="Powrót" FontSize="25" VerticalAlignment="Center" Margin="-120" TextWrapping="Wrap"  Foreground="White" IsHitTestVisible="False"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="btnAbout" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE897;" Height="50"  Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" />
-                    <TextBlock Text="Info" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White"></TextBlock>
+                    <Button x:Name="btnAbout" FontFamily="Segoe MDL2 Assets" FontSize="25" Content="&#xE897;" Height="50"  Width="200" Padding="-120 0 0 0" Background="Transparent" Foreground="White" Click="btnAbout_Click" />
+                    <TextBlock Text="Info" FontSize="25" VerticalAlignment="Center" Margin="-120" Foreground="White" IsHitTestVisible="False"></TextBlock>
                 </StackPanel>
             </StackPanel>
         </SplitView.Pane>

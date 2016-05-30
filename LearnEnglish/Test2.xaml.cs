@@ -63,18 +63,6 @@ namespace LearnEnglish
         private void btnShowPane_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-            txtLogo.Visibility = Visibility.Visible;
-
-            //Aby logo chowało się po zamknięciu panelu
-            if (MySplitView.IsPaneOpen == true)
-            {
-                txtLogo.Visibility = Visibility.Visible;
-
-            }
-            else
-            {
-                txtLogo.Visibility = Visibility.Collapsed;
-            }
         }
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
@@ -105,6 +93,11 @@ namespace LearnEnglish
                 await new Windows.UI.Popups.MessageDialog("Wybrałeś kategorie: "+kategoria+" oraz "+rodzaj+" słówka, test będzie się składał z "+ilosc+" pytań", "Potwierdź").ShowAsync();
                 Frame.Navigate(typeof(Test2_1));
             }
+        }
+
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Info));
         }
     }
 }
